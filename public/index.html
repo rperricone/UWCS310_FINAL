@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Best Books</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+
+
+    <div class="wrapper">
+        <div class="wrapper__content">
+               <div class="like">&#10084;</div>
+               <div class="cup-body"></div>
+               <div class="cup-body-shadow"></div>
+               <div class="cup-body-shadow-bottom"></div>
+               <div class="cup-label"></div>
+               <div class="cup-label-red">
+                    <div class="cup-label-red-shadow"></div>
+               </div>
+               <div class="face ">
+                    <div class="face-eyes"></div>
+                    <div class="face-mouth"></div>
+                    <div class="face-blush"></div>
+               </div>
+               <div class="cup-upper">
+                    <div class="cup-upper-shadow"></div>
+               </div>
+               <div class="cup-middle"></div>
+               <div class="cup-bottom">
+                    <div class="cup-bottom-shadow"></div>
+               </div>
+               <div class="floor"></div>
+        </div>
+   </div>
+  <div class="container">
+    <div class="row my-4">
+      <div class="col-12">
+        <h1> Something here Books </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <form id="best-books-form">
+          <div class="form-group mb-2">
+            <label for="year">Year:</label>
+            <input 
+              id="year"
+              name="year" 
+              class="form-control" 
+              type="text" 
+              pattern="\d{4}" 
+              placeholder="2019" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="month">Month:</label>
+            <input 
+              id="month" 
+              name="month" 
+              class="form-control" 
+              type="text" 
+              placeholder="03"
+              pattern="\d{2}"
+               />
+          </div>
+          <div class="form-group mb-2">
+            <label for="date">Date:</label>
+            <input 
+              id="date"
+              name="date" 
+              class="form-control" 
+              type="text" 
+              placeholder="11"
+              pattern="\d{2}"
+              />
+          </div>
+          <div class="form-group mb-2">
+            <input id="submit" class="btn btn-primary" type="submit" value="Get Books" />
+          </div>
+        </form>
+      </div>
+      
+      <div id="sparkling-background"></div>
+      <div id="toast"></div>
+      <div class="grid-container" id="panel"></div>
+      <div class="col-md-7 offset-md-1" id="books-container">
+        display books here
+
+      </div>
+      </div>
+  </div>
+  <script src="Book.js"></script>
+  <script src="BookShelf.js"></script>
+  <!-- include spec files here... -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="api-key.js"></script>
+  <script src="clientScript.js"></script>
+</body>
+</html>
