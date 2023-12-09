@@ -5,7 +5,7 @@ const dateEl = document.getElementById('date');
 
 formEl.addEventListener('submit', async function(e) {
   e.preventDefault();
-
+console.log("clicked")
   const year = yearEl.value;
   const month = monthEl.value;
   const date = dateEl.value;
@@ -62,14 +62,14 @@ function tooltipVisible(event, visible){
 }
 
 
-for (let i = 0; i < 100; i++) {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    sparkle.style.top = `${Math.random() * 100}%`;
-    sparkle.style.left = `${Math.random() * 100}%`;
-    sparkle.style.animationDelay = `${Math.random() * 2}s`;
-    document.getElementById('sparkling-background').appendChild(sparkle);
-}
+// for (let i = 0; i < 100; i++) {
+//     const sparkle = document.createElement('div');
+//     sparkle.className = 'sparkle';
+//     sparkle.style.top = `${Math.random() * 100}%`;
+//     sparkle.style.left = `${Math.random() * 100}%`;
+//     sparkle.style.animationDelay = `${Math.random() * 2}s`;
+//     document.getElementById('sparkling-background').appendChild(sparkle);
+// }
 
 
 setTimeout(() => {
