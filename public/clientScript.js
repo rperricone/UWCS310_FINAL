@@ -26,15 +26,40 @@ formEl.addEventListener('submit', async function(e) {
     //console.log(book.title, book.author, book.description, book.book_image)
     let book = new Book(bookData.title, bookData.author, bookData.description, bookData.book_image, bookData.rank);
     bookShelf.addBook(book);
-    $('#panel').append(`<div class="book grid-item "><b>Title</b>: 
-    ${book.getTitle()}<br/><b>Author</b>: 
-    ${book.getAuthor()}<br/><b>
-    <img class="book-image" src="${book.getImage()}"  alt="${book.getDescription()}"> 
-    <
-    <span class="tooltip">${book.getDescription()}</span><br/><br/></div>`)
+    $('#panel').append(`<div class="book grid-item">
+    <b>Title</b>: ${book.getTitle()}<br/>
+    <b>Author</b>: ${book.getAuthor()}<br/>
+    <div class="book-image-container">
+      <img class="book-image" onmouseover="tooltipVisible(event,true)" onmouseout="tooltipVisible(event,false)" src="${book.getImage()}" alt="${book.getDescription()}">
+      <div class="plus-button">+</div>
+      
+    </div>
+    <span class="tooltip-robin">${book.getDescription()}</span><br/><br/>
+  </div>`)
    }
 });
+function tooltipShow(event){
+        console.log(event)
+        let tooltip =  $(event.target.parentElement).next()
+        let x = e.clientX, y = e.clientY;
+        tooltip.style.top = (y + 20) + 'px';
+        tooltip.style.left = (x + 20) + 'px';
+      };
 
+function tooltipVisible(event, visible){
+
+    let tooltip =  $(event.target.parentElement).next()
+    console.log(tooltip)
+    if(visible){
+        console.log('visible!')
+        tooltip.addClass('visible-robin')
+      
+    }else{
+        console.log('not visible!')
+        tooltip.removeClass('visible-robin')
+    }
+    
+}
 
 
 for (let i = 0; i < 100; i++) {
@@ -66,3 +91,7 @@ const panel = document.getElementById('panel');
 // put books in here
 panel.innerHTML = `<div> books <br/> <div id='close' class="btn-robin" onclick="alert('close')">X</div></div>`;
 panel.classList.add('visible');
+
+$('.plus-button').on('click', function() {
+    alert('clicked');
+  });
