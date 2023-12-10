@@ -11,7 +11,7 @@ formEl.addEventListener('submit', async function(e) {
 //   $('#panel').focus();
 
 var date = $('#datepicker').datepicker('getDate').getDate();  
-var month = $('#datepicker').datepicker('getDate').getMonth();  
+var month = $('#datepicker').datepicker('getDate').getMonth() +1;  
 var year = $('#datepicker').datepicker('getDate').getFullYear();  
 console.log(date, month, year , 'date month year')
  
@@ -26,6 +26,9 @@ console.log(date, month, year , 'date month year')
   
   let response =  fetch(`https://api.nytimes.com/svc/books/v3/lists/${year}-${month.toString().padStart(2,'0')}-${date.toString().padStart(2,'0')}/hardcover-fiction.json?api-key=${API_KEY}`, requestOptions)
   let res = await response
+  if (!res.ok) {
+    doToast(`Error on fetch for API call ${res.status}`)
+  }
   let text = await res.json()
   console.log(text, 'text')
   bookShelf = new BookShelf();
@@ -53,16 +56,16 @@ console.log(date, month, year , 'date month year')
 function updateSelectedBooks(){
     
     $('#panel-selected-books').empty()
+    // $('#panel-selected-books').append(`<img class="bookshelf" src="bookshelf.jpeg">`)
     $('#panel-selected-books').addClass('visible')
   for(let book of [... selectedBooks.getBooks()]){
     console.log("updateSelectedBooks", book)
     //console.log(book.title, book.author, book.description, book.book_image)
 
-    $('#panel-selected-books').append(`<div class="book grid-item">
-    <b>Title</b>: ${book.getTitle()}<br/>
-    <b>Author</b>: ${book.getAuthor()}<br/>
-    <div class="book-image-container">
-      <img class="book-image" onmouseover="tooltipVisible(event,true)" onmouseout="tooltipVisible(event,false)" src="${book.getImage()}" title="${book.getDescription()}">
+    $('#panel-selected-books').append(`<div class="grid-item-selected-books">
+   
+    <div class="book-selected book-image-container-selected-books">
+      <img class="book-image-selected-books" onmouseover="tooltipVisible(event,true)" onmouseout="tooltipVisible(event,false)" src="${book.getImage()}" title="${book.getDescription()}">
       
       <div class="plus-button" onclick="removeClick(event,'${book.getTitle()}')">-</div>
       <br/> 
@@ -118,10 +121,9 @@ function tooltipVisible(event, visible){
 //     document.getElementById('sparkling-background').appendChild(sparkle);
 // }
 
-
-setTimeout(() => {
+function doToast(message){
     const toast = document.getElementById('toast');
-    toast.textContent = 'Pssst get 20% off by saying "#2023END" to your barista!';
+    toast.textContent = message;
     toast.classList.add('visible');
     setTimeout(() => {
         toast.style.animation = 'fadeout 1s';
@@ -130,7 +132,11 @@ setTimeout(() => {
             toast.style.animation = '';
             toast.classList.remove('visible');
         });
-    }, 10*1000); // start fading out the toast after 10 seconds
+    }, 10*1000); 
+}
+
+setTimeout(() => {
+   doToast('Pssst get 20% off by saying "#2023END" to your barista!')// start fading out the toast after 10 seconds
 }, 20*1000); // sh
 
 //Model for the books 
