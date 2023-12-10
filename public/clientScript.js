@@ -1,46 +1,93 @@
 const formEl = document.getElementById('best-books-form');
-const yearEl = document.getElementById('year');
-const monthEl = document.getElementById('month');
-const dateEl = document.getElementById('date');
 
+$('#datepicker').datepicker()
+let selectedBooks = new BookShelf();
+// $('#panel').on('blur', function() {
+//     $(this).hide();
+//   });
 formEl.addEventListener('submit', async function(e) {
   e.preventDefault();
-console.log("clicked")
-  const year = yearEl.value;
-  const month = monthEl.value;
-  const date = dateEl.value;
-  
+//   $('#panel').show();
+//   $('#panel').focus();
+
+var date = $('#datepicker').datepicker('getDate').getDate();  
+var month = $('#datepicker').datepicker('getDate').getMonth();  
+var year = $('#datepicker').datepicker('getDate').getFullYear();  
+console.log(date, month, year , 'date month year')
+ 
   // Fetch bestselling books for date and add top 5 to page
+
+
+
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
   
-  let response =  fetch(`https://api.nytimes.com/svc/books/v3/lists/${year}-${month}-${date}/hardcover-fiction.json?api-key=${API_KEY}`, requestOptions)
+  let response =  fetch(`https://api.nytimes.com/svc/books/v3/lists/${year}-${month.toString().padStart(2,'0')}-${date.toString().padStart(2,'0')}/hardcover-fiction.json?api-key=${API_KEY}`, requestOptions)
   let res = await response
   let text = await res.json()
+  console.log(text, 'text')
   bookShelf = new BookShelf();
   //console.log(text.results.books.slice(0,5)) 
   $('#panel').empty()
-  for(let bookData of text.results.books.slice(0,100)){
+  for(let bookData of text.results.books.slice(0,15)){
     //console.log(book.title, book.author, book.description, book.book_image)
     let book = new Book(bookData.title, bookData.author, bookData.description, bookData.book_image, bookData.rank);
-    bookShelf.addBook(book);
+    let index = bookShelf.addBook(book);// add index on book to bookshelf to return index and do no sorting today !!!!
     $('#panel').append(`<div class="book grid-item">
     <b>Title</b>: ${book.getTitle()}<br/>
     <b>Author</b>: ${book.getAuthor()}<br/>
     <div class="book-image-container">
-      <img class="book-image" onmouseover="tooltipVisible(event,true)" onmouseout="tooltipVisible(event,false)" src="${book.getImage()}" alt="${book.getDescription()}">
-      <div class="plus-button">+</div>
+      <img class="book-image" onmouseover="tooltipVisible(event,true)" onmouseout="tooltipVisible(event,false)" src="${book.getImage()}" title="${book.getDescription()}">
       
+      <div class="plus-button" onclick="addClick(event,${index})">+</div>
+      <br/> 
     </div>
-    <span class="tooltip-robin">${book.getDescription()}</span><br/><br/>
+    <span class="tooltip-robin">${book.getDescription()}</span><br/>
   </div>`)
    }
+
 });
+
+function updateSelectedBooks(){
+    
+    $('#panel-selected-books').empty()
+    $('#panel-selected-books').addClass('visible')
+  for(let book of [... selectedBooks.getBooks()]){
+    console.log("updateSelectedBooks", book)
+    //console.log(book.title, book.author, book.description, book.book_image)
+
+    $('#panel-selected-books').append(`<div class="book grid-item">
+    <b>Title</b>: ${book.getTitle()}<br/>
+    <b>Author</b>: ${book.getAuthor()}<br/>
+    <div class="book-image-container">
+      <img class="book-image" onmouseover="tooltipVisible(event,true)" onmouseout="tooltipVisible(event,false)" src="${book.getImage()}" title="${book.getDescription()}">
+      
+      <div class="plus-button" onclick="removeClick(event,'${book.getTitle()}')">-</div>
+      <br/> 
+    </div>
+    <span class="tooltip-robin">${book.getDescription()}</span><br/>
+  </div>`)
+
+   }
+}
+function removeClick(event, title){
+  
+    selectedBooks.removeBook(title)
+    updateSelectedBooks()
+
+}
+function addClick(event, index){
+    selectedBooks.addBook(bookShelf.getBook(index))
+// add selected book to the selected books list
+  console.log("clicked", index)
+  updateSelectedBooks()
+
+}
 function tooltipShow(event){
         console.log(event)
-        let tooltip =  $(event.target.parentElement).next()
+        let tooltip =  $(event.target).next()
         let x = e.clientX, y = e.clientY;
         tooltip.style.top = (y + 20) + 'px';
         tooltip.style.left = (x + 20) + 'px';
@@ -48,7 +95,7 @@ function tooltipShow(event){
 
 function tooltipVisible(event, visible){
 
-    let tooltip =  $(event.target.parentElement).next()
+    let tooltip =  $(event.target).next()
     console.log(tooltip)
     if(visible){
         console.log('visible!')
@@ -89,7 +136,7 @@ setTimeout(() => {
 //Model for the books 
 const panel = document.getElementById('panel');
 // put books in here
-panel.innerHTML = `<div> books <br/> <div id='close' class="btn-robin" onclick="alert('close')">X</div></div>`;
+// panel.innerHTML = `<div> books <br/> <div id='close' class="btn-robin" onclick="alert('close')">X</div></div>`;
 panel.classList.add('visible');
 
 $('.plus-button').on('click', function() {
