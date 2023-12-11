@@ -21,7 +21,15 @@ class Book {
     getBookRanking() {
         return this.bookRanking;
     }
-
+    toObject() {
+        return {
+            title: this.title,
+            author: this.author,
+            description: this.description,
+            bookImage: this.bookImage,
+            bookRanking: this.bookRanking
+        }
+    }
 
 }
 // todo : convert these to prototype methods - stored in memory once 

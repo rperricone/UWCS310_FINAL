@@ -1,6 +1,15 @@
 const formEl = document.getElementById('best-books-form');
 
-$('#datepicker').datepicker()
+// $('#datepicker').datepicker()
+ const picker = datepicker('#datepicker', {
+  formatter: (input, dateIn, instance) => {
+    let date = dateIn.getDate();
+    let month = dateIn.getMonth() +1;  
+    let year = dateIn.getFullYear(); 
+    input.value = `${month}/${date}/${year}`
+  }
+})
+ 
 let selectedBooks = new BookShelf();
 // $('#panel').on('blur', function() {
 //     $(this).hide();
@@ -9,28 +18,32 @@ formEl.addEventListener('submit', async function(e) {
   e.preventDefault();
 //   $('#panel').show();
 //   $('#panel').focus();
-
-var date = $('#datepicker').datepicker('getDate').getDate();  
-var month = $('#datepicker').datepicker('getDate').getMonth() +1;  
-var year = $('#datepicker').datepicker('getDate').getFullYear();  
+console.log($('#datepicker')[0].value, 'texter')
+let date = new Date($('#datepicker')[0].value)
+console.log(date, 'date')
+let day = date.getDate();
+let  month = date.getMonth() +1;  
+let year = date.getFullYear();  
 console.log(date, month, year , 'date month year')
  
-  // Fetch bestselling books for date and add top 5 to page
+  let bookType = $('#book-type').val() || 'hardcover'
+  console.log($('#book-type').val(), 'book-type')
+// Fetch bestselling books for date and add top 5 to page
 
-
+let endPoints = {
+  hardCover: `https://api.nytimes.com/svc/books/v3/lists/${year}-${month.toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}/hardcover-fiction.json?api-key=${API_KEY}`,
+ paperBack: `https://api.nytimes.com/svc/books/v3/lists/${year}-${month.toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}/trade-fiction-paperback.json?api-key=${API_KEY}`}
 
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
-  
-  let response =  fetch(`https://api.nytimes.com/svc/books/v3/lists/${year}-${month.toString().padStart(2,'0')}-${date.toString().padStart(2,'0')}/hardcover-fiction.json?api-key=${API_KEY}`, requestOptions)
-  let res = await response
-  if (!res.ok) {
-    doToast(`Error on fetch for API call ${res.status}`)
-  }
-  let text = await res.json()
-  console.log(text, 'text')
+let text = null
+if (bookType === 'paperback'){
+    text = await getUrl(endPoints.paperBack)
+}else{
+    text = await getUrl(endPoints.hardCover)
+}
   bookShelf = new BookShelf();
   //console.log(text.results.books.slice(0,5)) 
   $('#panel').empty()
@@ -54,7 +67,9 @@ console.log(date, month, year , 'date month year')
 });
 
 function updateSelectedBooks(){
-    
+
+    localStorage.setItem('selectedBooks', JSON.stringify(selectedBooks.getObject()))
+    console.log(localStorage.getItem('selectedBooks'))
     $('#panel-selected-books').empty()
     // $('#panel-selected-books').append(`<img class="bookshelf" src="bookshelf.jpeg">`)
     $('#panel-selected-books').addClass('visible')
@@ -79,6 +94,7 @@ function removeClick(event, title){
   
     selectedBooks.removeBook(title)
     updateSelectedBooks()
+
 
 }
 function addClick(event, index){
@@ -148,3 +164,35 @@ panel.classList.add('visible');
 $('.plus-button').on('click', function() {
     alert('clicked');
   });
+
+  $(document).ready(function() {
+    if(localStorage.getItem('selectedBooks')){
+     selectedBooks.loadBooksByJSON((localStorage.getItem('selectedBooks')))
+     console.log(selectedBooks, 'selectedBooks')
+     updateSelectedBooks()
+    }
+
+  })
+
+  async function getUrl(url){
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+
+   let response =  fetch(url, requestOptions)
+   let res = await response
+   if (!res.ok) {
+     doToast(`Error on fetch for API call ${res.status}`)
+   }
+   let text = await res.json()
+   console.log(text, 'text')
+   return text
+  
+
+  }
+ 
+
+
+  

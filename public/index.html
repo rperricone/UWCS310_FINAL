@@ -4,26 +4,37 @@
 <head>
     <title>Best Books</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" integrity="sha512-ELV+xyi8IhEApPS/pSj66+Jiw+sOT1Mqkzlh8ExXihe4zfqbWkxPRi8wptXIO9g73FSlhmquFlUOuMSoXz5IRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
       
 </head>
 
 <body>
+<!-- Calandar -->
+
+<!-- end calandar -->
+
+
+
     <div class="container">
           
-                <h1> Something here Books </h1>
+                <h1>  </h1>
             
         
         <div class="flex-container">
         <div class="row">
          
                 <form id="best-books-form" autocomplete="off" >
+
                     <div class="form-group mb-2">
                         <label for="date">Date:</label>
                         <input id="datepicker" name="date" class="form-control" type="text" />
+                        <select id="book-type" name="book-type" class="form-control">
+                            <option value="hardcover">Hardcover</option>
+                            <option value="paperback">Paperback</option>
+                        </select>
                         <input id="submit" class="btn btn-primary" type="submit" value="Get Books" />
                     </div>
                 </form>
@@ -49,7 +60,7 @@
         <script src="Book.js"></script>
         <script src="BookShelf.js"></script>
         <!-- include spec files here... -->
-
+        <script src="https://unpkg.com/js-datepicker"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <script src="api-key.js"></script>
