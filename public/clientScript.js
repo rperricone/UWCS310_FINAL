@@ -148,14 +148,14 @@ function doToast(message){
             toast.style.animation = '';
             toast.classList.remove('visible');
         });
-    }, 15*1000); 
+    }, 5*1000); 
 }
 
-
+function showCat(){
 setTimeout(() => {
-   doToast(` <img style="border-radius:100%;"src="https://placekitten.com/${200}/${200}">`)// start fading out the toast after 10 seconds
-}, 10*1000);
-
+   doToast(` <img style="border-radius:100%;width:auto; height:500px;"src="./cat-belaena.jpg">`)// start fading out the toast after 10 seconds
+}, 1*1000);
+}
 
 //Model for the books 
 const panel = document.getElementById('panel');
