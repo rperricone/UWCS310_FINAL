@@ -144,7 +144,7 @@ function doToast(message){
     setTimeout(() => {
         toast.style.animation = 'fadeout 1s';
         toast.addEventListener('animationend', () => {
-            toast.style.visibility = 'hidden';
+            // toast.style.visibility = 'hidden';
             toast.style.animation = '';
             toast.classList.remove('visible');
         });
