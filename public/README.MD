@@ -1,3 +1,5 @@
+# where to put API key
+- paste Api-key into api-key.js
 # Final Project Rubric
 # Your project must include 4 of the 6 following features (but may include more):
 
