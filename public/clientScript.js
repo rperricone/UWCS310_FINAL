@@ -139,7 +139,7 @@ function tooltipVisible(event, visible){
 
 function doToast(message){
     const toast = document.getElementById('toast');
-    toast.textContent = message;
+    toast.innerHTML = message;
     toast.classList.add('visible');
     setTimeout(() => {
         toast.style.animation = 'fadeout 1s';
@@ -148,12 +148,14 @@ function doToast(message){
             toast.style.animation = '';
             toast.classList.remove('visible');
         });
-    }, 10*1000); 
+    }, 15*1000); 
 }
 
+
 setTimeout(() => {
-   doToast('Pssst get 20% off by saying "#2023END" to your barista!')// start fading out the toast after 10 seconds
-}, 20*1000); // sh
+   doToast(` <img style="border-radius:100%;"src="https://placekitten.com/${200}/${200}">`)// start fading out the toast after 10 seconds
+}, 10*1000);
+
 
 //Model for the books 
 const panel = document.getElementById('panel');
